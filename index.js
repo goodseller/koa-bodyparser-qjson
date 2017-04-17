@@ -13,7 +13,7 @@
 /**
  * Module dependencies.
  */
-var parseJSONQ = require('co-body-qjson');
+var parseQJSON = require('co-body-qjson');
 var parse = require('co-body');
 var copy = require('copy-to');
 
@@ -97,7 +97,7 @@ module.exports = function (opts) {
 
   async function parseBody(ctx) {
     if (enableQJson && ctx.request.is(qjsonTypes)) {
-      return await parseJSONQ.jsonq(ctx, qjsonOpts);
+      return await parseQJSON.qjson(ctx, qjsonOpts);
     }
     if (enableJson && ((detectJSON && detectJSON(ctx)) || ctx.request.is(jsonTypes))) {
       return await parse.json(ctx, jsonOpts);
