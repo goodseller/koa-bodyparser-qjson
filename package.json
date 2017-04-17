@@ -1,31 +1,31 @@
 {
-  "name": "koa-bodyparser",
-  "version": "4.2.0",
-  "description": "a body parser for koa",
+  "name": "koa-bodyparser-qjson",
+  "version": "0.0.0",
+  "description": "a body parser with qjson for koa",
   "main": "index.js",
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/koajs/bodyparser.git"
+    "url": "git://github.com/goodseller/koa-bodyparser-qjson.git"
   },
   "files": [
     "index.js"
   ],
   "keywords": [
     "bodyParser",
+    "qjson",
     "json",
-    "urlencoded",
     "koa",
     "body"
   ],
-  "author": "dead_horse <dead_horse@qq.com> (http://deadhorse.me)",
+  "author": "goodseller <goodseller@users.noreply.github.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/koajs/body-parser/issues"
+    "url": "git://github.com/goodseller/koa-bodyparser-qjson.git"
   },
-  "homepage": "https://github.com/koajs/body-parser",
+  "homepage": "git://github.com/goodseller/koa-bodyparser-qjson.git",
   "devDependencies": {
     "autod": "2.4.2",
     "istanbul": "^0.4.5",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "co-body": "^5.1.0",
+    "co-body-qjson": "^0.0.0",
     "copy-to": "^2.0.1"
   },
   "engines": {

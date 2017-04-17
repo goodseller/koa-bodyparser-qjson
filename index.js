@@ -13,7 +13,7 @@
 /**
  * Module dependencies.
  */
-
+var parseJSONQ = require('co-body-qjson');
 var parse = require('co-body');
 var copy = require('copy-to');
 
@@ -30,9 +30,11 @@ module.exports = function (opts) {
   var detectJSON = opts.detectJSON;
   var onerror = opts.onerror;
 
-  var enableTypes = opts.enableTypes || ['json', 'form'];
-  var enableForm = checkEnable(enableTypes, 'form');
+  var enableTypes = opts.enableTypes || ['qjson', 'json', 'form', 'text'];
+  
+  var enableQJson = checkEnable(enableTypes, 'qjson');
   var enableJson = checkEnable(enableTypes, 'json');
+  var enableForm = checkEnable(enableTypes, 'form');
   var enableText = checkEnable(enableTypes, 'text');
 
   opts.detectJSON = undefined;
@@ -40,6 +42,11 @@ module.exports = function (opts) {
 
   // force co-body return raw body
   opts.returnRawBody = true;
+
+  // default qjson types
+  var qjsonTypes = [
+    'application/qjson',
+  ];
 
   // default json types
   var jsonTypes = [
@@ -58,13 +65,15 @@ module.exports = function (opts) {
   var textTypes = [
     'text/plain',
   ];
-
+  
+  var qjsonOpts = formatOptions(opts, 'qjson');
   var jsonOpts = formatOptions(opts, 'json');
   var formOpts = formatOptions(opts, 'form');
   var textOpts = formatOptions(opts, 'text');
 
   var extendTypes = opts.extendTypes || {};
 
+  extendType(jsonTypes, extendTypes.qjson);
   extendType(jsonTypes, extendTypes.json);
   extendType(formTypes, extendTypes.form);
   extendType(textTypes, extendTypes.text);
@@ -87,6 +96,9 @@ module.exports = function (opts) {
   };
 
   async function parseBody(ctx) {
+    if (enableQJson && ctx.request.is(qjsonTypes)) {
+      return await parseJSONQ.jsonq(ctx, qjsonOpts);
+    }
     if (enableJson && ((detectJSON && detectJSON(ctx)) || ctx.request.is(jsonTypes))) {
       return await parse.json(ctx, jsonOpts);
     }
